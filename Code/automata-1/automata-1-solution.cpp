@@ -16,7 +16,7 @@ char next()
 
 /*
  * Computes next state. Returns the following
- *   >0 : the next state
+ *   >==>=>=0 : the next state
  *   -1 : input sequence not legal
  *   -2 : we're in final state
  *   -3 : internal error
