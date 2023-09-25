@@ -5,7 +5,10 @@ using namespace std;
 const char inputs[] = {'a', 'a', 'b', 'c'};
 int ninputs = sizeof(inputs) / sizeof(inputs[0]);
 
-/* Gets next inputs, or 'x' if no inputs available */
+/*
+ * Gets next inputs, or 'x' if no inputs available.
+ * WARNING: this function shifts the input, once you call it!
+ */
 char next()
 {
 	static int i = 0;
