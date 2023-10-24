@@ -33,6 +33,3 @@
 
 # Other
 .vscode
-*.opt
-*.bootinfo*
-*.compileinfo
