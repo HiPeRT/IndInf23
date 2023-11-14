@@ -15,11 +15,18 @@ int main () {
     pthread_t threads[N];
 
     for (int i = 0; i < N; i++) {
-        pthread_create(&threads[i], NULL, thread_fn, NULL);
+        pthread_create(&threads[i], NULL, thread_fn, NULL);  // =====> FORK (open PARREG)
     }
+    
+    // Now, the man (master) thread can do other useful stuff, here
 
+    // It participates to the parallel computation
+    thread_fn ();
+
+    // while other (slave) threads execute in parallel
+    
     for (int i = 0; i < N; i++) {
-        pthread_join(threads[i], NULL);
+        pthread_join(threads[i], NULL);  // <===== JOIN (close PARREG)
     }
 
     printf("Programma terminato\n");

@@ -37,14 +37,14 @@ int main()
     data.a = 5;
     data.b = 3;
 
-    pthread_create (&tid, NULL, pthreads_fn, (void *) &data); // Pass 'i' as identifier for thread
+    pthread_create (&tid, NULL, pthreads_fn, (void *) &data); // Pass 'data' as in working set
 
     // Now, the man (master) thread can do other useful stuff, here
     // while other (slave) threads execute in parallel
     
     void * ret = NULL;
 
-    pthread_join(tid, (void **)&ret); // Now, returnvalue contains the value returned by pthreads_fn
+    pthread_join(tid, (void **)&ret); // Now, 'ret' contains the value returned by pthreads_fn
 
     results_t *results = (results_t *)ret;
 
