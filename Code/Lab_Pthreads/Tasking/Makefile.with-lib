@@ -1,0 +1,17 @@
+CC=gcc
+RM=rm -rf
+EXENAME=tasking
+INCDIR=-I LibQ/
+LDFLAG= -L LibQ -l stdc++ -l pthread -l Q
+CFLAG=-fpermissive -Wall $(INCDIR)
+CSRCS=main.cpp
+
+all:
+	$(RM) *.o $(EXENAME)
+	$(CC) $(CFLAG) -o $(EXENAME) $(CSRCS) $(LDFLAG)
+	
+clean:
+	$(RM) *.o $(EXENAME)
+
+run: all
+	./$(EXENAME)

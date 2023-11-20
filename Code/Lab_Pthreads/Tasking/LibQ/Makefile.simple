@@ -1,0 +1,6 @@
+all: clean
+	gcc -c -Wall libQ.cpp -o libQ.o
+	ar -rcs libQ.a libQ.o
+	
+clean:
+	rm -rf libQ.o libQ.a

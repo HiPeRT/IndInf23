@@ -1,39 +1,39 @@
 #include <stdio.h>
+
 #include <pthread.h>
 
-#include "utils.h"
-
-#define N_ELEM 16
-
-// This is global, because we want it to be visible both to main() and pthread_fn()
+// Thiese are global, because we want it to be visible both to main() and pthread_fn()
 // NOTE as a genral rule, we should NEVER work on global objects, as they represent an uncontrolled dependency
+const int N_ELEM = 16;
 int arr[N_ELEM];
+
+const unsigned int NUM_THREADS = 4;
+
+// Local sums (for Reduction pattern)
+int sum_local[NUM_THREADS];
 
 void * pthreads_fn(void * args)
 {
     // This is my uniqe and progressive identifier, as assigned by programmer in main()
     int myid = (int) args;
-    
-    printf("Hello PThreads world! My id is: %u\n", myid);
-    //printf("The OS / PThreads runtime, instead, assigned me \\
-        the following id: %u\n", pthread_self());
 
+    // Init my local sum
+    sum_local[myid] = 0;
 
-    // This is my partition strategy: here, I map the ID of the thread
-    // onto the data space, by using it for indexing the array
-    // Strategy => Each thread will work on the "myid-th" element of the array
-    arr[myid] = arr[myid] * 2;
+    // MOTE We assume N_ELEM is a multiple of NUM_THREADS!!
+    int chunk = N_ELEM / NUM_THREADS;
+    int istart = chunk * myid;
+    int iend = istart + chunk;
 
-    // We work on a global object. No need to return anything, here
+    for(int i = istart; i<iend; i++ )
+        sum_local[myid] = sum_local[myid] + arr[i];
+
+    // We work on global objects (discouraged)
     return NULL;
 }
 
 int main()
 {
-    // We spawn as many threads as the elements of the array:
-    // this means that our data partitioning strategy assigns one array element to each thread
-    const unsigned int NUM_THREADS = N_ELEM;
-
     pthread_t mythreads[NUM_THREADS];
     pthread_attr_t myattr;
 
@@ -45,9 +45,6 @@ int main()
     for(int i=0; i<N_ELEM; i++)
         arr[i]= i;        
 
-    unsigned long long start = gettime();
-    printf("Start at %llu\n", start );
-    // Slave threads have id >= 1. Id '0' is reserved for master thread
     for(int i=1; i<NUM_THREADS; i++)                        // ==> FORK
     {
         pthread_attr_init(&myattr);
@@ -65,14 +62,12 @@ int main()
     for(int i=1; i<NUM_THREADS; i++)                        // <== JOIN
         pthread_join(mythreads[i], &returnvalue);
 
-    unsigned long long end = gettime();
-    
-    printf("End at %llu.\n", end );
-    printf("<TOTAL TIME>%llu</TOTAL TIME>\n", end-start );
+    int sum = 0;
+    for(int i=0; i<NUM_THREADS; i++)
+        sum += sum_local[i];
 
     // Check (after join!!)
-    for(int i=0; i<N_ELEM; i++)
-        printf("[CHECK] arr[%d] now is %d\n", i, arr[i]);
+    printf("[CHECK] average value is %f\n", ((float) sum) / N_ELEM);
 
     return 0;
 }
