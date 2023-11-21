@@ -1,5 +1,5 @@
 /*
- * Semaphore demo 
+ * Mutex demo 
  *
  * Copyright (C) 2002 by Paolo Gai
  *
@@ -23,28 +23,19 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-sem_t mysem;
+pthread_mutex_t mymutex;
 
 void *body(void *arg)
 {
   int i,j;
-  char *mychar = (char *)arg;
   
-  // Use semaphore for achieving mutual exclusion
-  // ON THE PORTION OF CODE
-  // sem_wait(&mysem);
+  pthread_mutex_lock(&mymutex);
   for (j=0; j<40; j++) {
-    
-    //sem_wait(&mysem);
-    
-    for (i=0; i<100000; i++) // Simulate fake work, or wait for some computation
-      ;
-
-    fprintf(stderr, mychar);
-
-    //sem_post(&mysem);
+    for (i=0; i<1000000; i++)
+		;
+    fprintf(stderr,(char *)arg);
   }
-  // sem_post(&mysem);
+  pthread_mutex_unlock(&mymutex);
 
   return NULL;
 }
@@ -55,7 +46,11 @@ int main()
   pthread_attr_t myattr;
   int err;
 
-  sem_init(&mysem,0,1);
+  pthread_mutexattr_t mymutexattr;
+
+  pthread_mutexattr_init(&mymutexattr);
+  pthread_mutex_init(&mymutex, &mymutexattr);
+  pthread_mutexattr_destroy(&mymutexattr);
 
   pthread_attr_init(&myattr);
   err = pthread_create(&t1, &myattr, body, (void *)".");
