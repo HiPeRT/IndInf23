@@ -1,3 +1,12 @@
+# Scritto 18 Giugno 2024
+
+| Matricola                     | Crocette | D9 | D10 | Esito | Voto | Note                               |
+|-------------------------------|----------|----|-----|-------|------|------------------------------------|
+| 170141                        |          |    |     |       | 29   | Sostenuto in data 20 Febbraio 2024 |
+| 170454                        | 8.5      |    |     | 8.5   | INS  |                                    |
+| 168060                        | 10.5     | 3  | 4   | 17.5  | 18   |                                    |
+
+
 # Scritto 20 Febbraio 2024
 
 | Matricola                     | Crocette | D9 | D10 | Esito | Voto | Note                              |
@@ -15,12 +24,11 @@
 | 168060                        | 12       | 3  | 0   | 15    | INS  |                                   |
 | 163506                        |          |    |     |       | ASS  |                                   |
 | 166637                        | 10       | 8  | 5   | 23    | 23   |                                   |
-|                               | 14       | 8  | 7   | 29    | 29   |
+| 170141                        | 14       | 8  | 7   | 29    | 29   |
 
 
 
-
-o# Scritto 22 Gennaio 2024
+# Scritto 22 Gennaio 2024
 
 | Matricola | Crocette | D9 | D10 | Esito | Voto | Note |
 |-----------|----------|----|-----|-------|------|------|
